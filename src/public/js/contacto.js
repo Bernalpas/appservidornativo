@@ -27,7 +27,7 @@ formulario.addEventListener('submit', (event) => {
   console.log(dataUser);
 
   // Enviamos los datos al backend
-fetch('http://localhost:8080/user/contacto', {
+fetch('https://appservidornativo-production.up.railway.app/user/contacto', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

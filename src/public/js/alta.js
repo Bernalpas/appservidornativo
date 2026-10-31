@@ -38,7 +38,7 @@ productForm.addEventListener('submit', (e)=>{
   }
 
   // Enviamos los datos al backend
-  fetch('http://localhost:8080/product/create', {
+  fetch('https://appservidornativo-production.up.railway.app/product/create', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

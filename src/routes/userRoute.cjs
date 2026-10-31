@@ -11,7 +11,7 @@ const User = require('../models/userCollection.cjs');
 
 
 // Rutas del USER
-router.post('/contacto', (req, res)=>{
+router.post('/contacto', async (req, res)=>{
 
   // 1. Puedo separar los datos del objeto req.body
   /*
@@ -34,7 +34,7 @@ router.post('/contacto', (req, res)=>{
   }
 
   // insertamos un documento en la Colección User
-  User.create(contacto);
+  await User.create(contacto);
 
   // Imprimo los datos del usuario
   console.log(contacto);

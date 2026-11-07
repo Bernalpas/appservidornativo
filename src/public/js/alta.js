@@ -15,12 +15,11 @@ productForm.addEventListener('submit', (e)=>{
   const stockProduct = product.get('stock');
   const brandProduct = product.get('brand');
   const categoryProduct = product.get('category');
-  const sortDescProduct = product.get('sortDesc');
+  const sortDescProduct = product.get('shortDesc');
   const longDescProduct = product.get('longDesc');
-  const edadMinimaProduct = product.get('edadMinima');
-  const edadMaximaProduct = product.get('edadMaxima');
-  const envioProduct = product.get('envio');
-  const imagenProduct = product.get('imagen');
+  const edadMinimaProduct = product.get('ageFrom');
+  const edadMaximaProduct = product.get('ageTo');
+  const envioProduct = product.get('freeShip') === 'si';
 
   // Creamos un objeto con los datos del producto
   let dataproduct = {
@@ -34,11 +33,12 @@ productForm.addEventListener('submit', (e)=>{
     edadMinima: edadMinimaProduct,
     edadMaxima: edadMaximaProduct,
     envio: envioProduct,
-    imagen: imagenProduct,
   }
 
+  console.log(dataproduct);
+
   // Enviamos los datos al backend
-  fetch('https://appservidornativo-production.up.railway.app/product/create', {
+  fetch('/product/create', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -48,5 +48,4 @@ productForm.addEventListener('submit', (e)=>{
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));
-
 });

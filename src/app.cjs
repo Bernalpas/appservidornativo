@@ -13,6 +13,9 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 
 // Importamos las Rutas del Backend
 const userRoute = require('./routes/userRoute.cjs');

@@ -1,7 +1,6 @@
 
-#Módulos de Node que instalamos
-/node_modules
 
-#Variables de entornos privadas
 .env
+
+/node_modules
 

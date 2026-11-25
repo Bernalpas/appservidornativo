@@ -25,11 +25,25 @@
         <li class="nav-item">
           <a class="nav-link" href="/contacto">Contacto</a>
         </li>
-        <li class="nav-item ms-lg-2">
-          <a class="btn btn-warning fw-bold px-3 text-dark" href="/login">
-            Login
-          </a>
-        </li>
+
+        {{#if nombre}}
+          <li class="nav-item ms-lg-3">
+            <span class="navbar-text text-warning fw-semibold">
+              <i class="bi bi-person-circle me-1"></i>Hola, {{nombre}}
+            </span>
+          </li>
+          <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+            <a class="btn btn-outline-warning btn-sm fw-bold px-3" href="/logout">
+              Cerrar sesión
+            </a>
+          </li>
+        {{else}}
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-warning fw-bold px-3 text-dark" href="/login">
+              Login
+            </a>
+          </li>
+        {{/if}}
       </ul>
     </div>
   </div>

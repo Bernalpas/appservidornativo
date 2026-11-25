@@ -1,0 +1,30 @@
+<section class="login-section">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="brand-badge">🔒</div>
+      <h1>Error al iniciar sesión</h1>
+      <p>No pudimos verificar tu acceso en <strong>Pizzería Bella Napoli</strong></p>
+    </div>
+
+    <div class="alert-error" role="alert">
+      {{#if mensaje}}
+        {{mensaje}}
+      {{else}}
+        El correo electrónico o la contraseña ingresados son incorrectos.
+      {{/if}}
+    </div>
+
+    <div class="login-header">
+      <p>Verificá que tus datos estén bien escritos e intentá nuevamente, o creá una cuenta si todavía no tenés acceso.</p>
+    </div>
+
+    <div class="form-actions">
+      <a href="{{#if loginUrl}}{{loginUrl}}{{else}}/login{{/if}}" class="btn btn-primary" style="text-align: center; text-decoration: none;">
+        Volver a intentar
+      </a>
+      <a href="{{#if registerUrl}}{{registerUrl}}{{else}}/registro{{/if}}" class="btn btn-secondary" style="text-align: center; text-decoration: none;">
+        Registrarse
+      </a>
+    </div>
+  </div>
+</section>

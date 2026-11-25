@@ -1,0 +1,30 @@
+<section class="login-section">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="brand-badge">✅</div>
+      <h1>¡Inicio de sesión exitoso!</h1>
+      <p>
+        {{#if nombre}}
+          Hola <strong>{{nombre}}</strong>, ya ingresaste a tu cuenta de <strong>Pizzería Bella Napoli</strong>.
+        {{else}}
+          Ya ingresaste correctamente a tu cuenta de <strong>Pizzería Bella Napoli</strong>.
+        {{/if}}
+      </p>
+    </div>
+
+    {{#if email}}
+      <div class="login-header">
+        <p>Sesión iniciada con el correo <strong>{{email}}</strong>. Ya podés hacer tu pedido o consultar nuestras promociones vigentes.</p>
+      </div>
+    {{/if}}
+
+    <div class="form-actions">
+      <a href="{{#if menuUrl}}{{menuUrl}}{{else}}/menu{{/if}}" class="btn btn-primary" style="text-align: center; text-decoration: none;">
+        Ir al menú
+      </a>
+      <a href="{{#if homeUrl}}{{homeUrl}}{{else}}/{{/if}}" class="btn btn-secondary" style="text-align: center; text-decoration: none;">
+        Ir al inicio
+      </a>
+    </div>
+  </div>
+</section>

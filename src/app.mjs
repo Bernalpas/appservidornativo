@@ -15,7 +15,7 @@ import pagesRouter from "./routes/pagesRouters.mjs"
 import usersRouter from "./routes/usersRouters.mjs"
 
 // Importamos el middleware de rateLimit
-import apiLimiter from "./middlewares/rateLimit.mjs"
+import { apiLimiter } from "./middlewares/rateLimit.mjs"
 
 // Imports de fileURL a path: Versiones anteriores a 20.11
 //const __filename = fileURLToPath(import.meta.url)

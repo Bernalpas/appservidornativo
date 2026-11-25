@@ -1,4 +1,3 @@
-
 // importar el validador de express-validator
 import { validationResult } from "express-validator";
 
@@ -10,8 +9,6 @@ import bcrypt from "bcrypt";
 
 // importamos el modelo de usuario
 import User from "../models/userModel.mjs";
-
-
 
 // Registro de usuarios
 const registerUser = async (req, res) => {
@@ -100,7 +97,81 @@ const registerUser = async (req, res) => {
   
 }
 
+// Login de usuarios
+const loginUser = async (req, res) => {
+
+  const { email, password } = req.body
+  
+  //1. Validar los campos
+  const errors = validationResult(req);
+
+  console.log(errors);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });// Generar en hbs para este error
+  }
+
+
+  // 2 Try catch
+  try {
+    // 2.1 Buscamos el usuario en la base de datos
+    const user = await User.findOne({ email });
+
+    console.log(user);// imprime el user
+
+    // Si el usuario no existe, devolvemos un error
+    if (!user) {
+      return res.status(404).render(
+        "error-login", {
+          title: "Error de Login",
+          email,
+          customStyle: "login",
+        }
+      );
+    }
+
+
+    // Si el usuario existe, verificamos la contraseña
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    // Si la contraseña no coincide, devolvemos un error
+    if (!passwordMatch) {
+      return res.status(400).render(
+        "error-login", {
+          title: "Error de Login",
+          email,
+          customStyle: "login",
+        }
+      );
+    }
+
+    // Si está joya todo, renderizamos login-exitoso
+    res.status(200).render("login-exitoso", {
+      nombre: user.name,
+      email,
+      loginUrl: "/login",
+      homeUrl: "/",
+      customStyle: "login",
+      title: "Login",
+    })
+  } catch (error) {
+    // Si hay un error, devolvemos un error interno del servidor
+    console.log(error);
+    return res.status(500).render(
+      "error-login", {
+        title: "Error de Login",
+        mensaje: "Nuestros Ingenieros están trabajando para resolver este problema. Por favor, intentá nuevamente en unos minutos.",
+        customStyle: "login",
+      }
+    );
+
+  }
+
+
+}
+
 
 export { 
-  registerUser 
+  registerUser,
+  loginUser
 }

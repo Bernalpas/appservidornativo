@@ -3,13 +3,17 @@ import express from "express"
 const router = express.Router()
 
 // importamos el validator
-import { check } from "express-validator"
+import { check, body } from "express-validator"
 
-import { registerUser } from "../controllers/usersControllers.mjs";
+import { 
+  registerUser,
+  loginUser
+  } from "../controllers/usersControllers.mjs";
+
+// importamos el middleware de rateLimit
+import { loginLimiter } from "../middlewares/rateLimit.mjs";
 
 // es ruta responde a /api/users
-
-
 
 router.post(
   "/register", //ruta
@@ -20,6 +24,24 @@ router.post(
   ], //validaciones
   registerUser //controlador
 )
+
+//Ruta de login
+router.post(
+  "/login", //ruta
+  [
+    body("email")
+      .isEmail()
+      .withMessage("El email debe ser válido"),
+    body("password")
+      .isLength({ min: 6, max: 12 })
+      .isAlphanumeric()
+      .withMessage("La contraseña debe tener al menos 6 caracteres y alfanumérico"),
+  ], //validaciones
+  loginLimiter, //middleware de rateLimit
+  loginUser //controlador
+)
+
+
 
 
 export default router

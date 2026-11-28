@@ -10,6 +10,12 @@ import bcrypt from "bcrypt";
 // importamos el modelo de usuario
 import User from "../models/userModel.mjs";
 
+// importamos el jsonwebtoken
+import jwt from "jsonwebtoken";
+
+// importamos la función para enviar el mail de bienvenida
+import sendWelcomeEmail from "../helpers/sendEmail.mjs";
+
 // Registro de usuarios
 const registerUser = async (req, res) => {
 
@@ -70,6 +76,28 @@ const registerUser = async (req, res) => {
     // Si no existe el email, creamos el usuario
     const newUser = await User.create(user);
     console.log(newUser);
+
+    // Enviamos un mail de bienvenida
+    if (newUser) {
+
+      try {
+
+        const data = await sendWelcomeEmail(newUser.email, newUser.name);
+        console.log(data);
+        
+      } catch (error) {
+        console.log(error);
+
+        return res.status(500).render(
+          "error-registro", {
+            title: "Error de Registro",
+            mensaje: "Nuestros Ingenieros están trabajando para resolver este problema. Por favor, intentá nuevamente en unos minutos.",
+            customStyle: "login",
+          }
+        );
+      }
+
+    } 
 
     // Si está joya todo, renderizamos registro-exitoso
     res.status(200).render("registro-exitoso", {
@@ -144,6 +172,27 @@ const loginUser = async (req, res) => {
         }
       );
     }
+
+    // 2.2 Generamos el token
+    const payload = {// información del usuario que agregamos al token
+      id: user._id,
+      nombre: user.name,
+      email: user.email,
+      role: user.role,
+    }
+
+    // 2.3 Generamos el token
+    const secret = process.env.JWT_SECRET;
+    const expiresIn = process.env.JWT_EXPIRES_IN;
+    const token = jwt.sign(payload, secret, { expiresIn });
+    console.log(token)
+
+    // 2.4 Guardamos el token en la cookie
+    res.cookie("token", token, {
+      httpOnly: true, //sólo valido desde el cliente, no desde el servidor
+      expiresIn: process.env.JWT_COOKIE_EXPIRES_IN,
+    })
+
 
     // Si está joya todo, renderizamos login-exitoso
     res.status(200).render("login-exitoso", {
